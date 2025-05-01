@@ -17,7 +17,8 @@
 	        ELSE ur.total_score
 	    END AS 'total_score',
         ubr.result_name as final_result,
-        ubr.created_at 'taken_date'
+        ubr.created_at 'taken_date',
+        bbp2.name AS 'project'
 FROM user_results ur
 LEFT JOIN tests t ON
     ur.test_id = t.id
@@ -27,7 +28,13 @@ JOIN user_bundle_result_user_result ubrur on
 	ur.id = ubrur.user_result_id
 JOIN user_bundle_results ubr on
 	ubrur.user_bundle_result_id = ubr.id
+LEFT JOIN
+	b2b_participant_bundles bbpb ON bbpb.user_bundle_result_id = ubr.id
+LEFT JOIN
+	b2b_participants bbp ON bbp.id = bbpb.participant_id
+LEFT JOIN
+	b2b_projects bbp2 ON bbp2.id = bbp.project_id
 WHERE
-	ubr.created_at >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
+	ubr.created_at >= '2025-01-01'
 ORDER BY
 	ubr.created_at DESC, id, bundle_name, total_score DESC

@@ -33,8 +33,8 @@ with st.expander("📌 **Instruksi Penggunaan**"):
     """)
 
 
-df_creds, df_links, df_final = finalize_data()
-
+df_creds, df_links, df_b2b, df_final = finalize_data()
+st.write(df_final.head(50))
 df_merged = df_final.copy()
 
 # GI
@@ -197,22 +197,35 @@ for new_col, merge_col in genuine_columns.items():
 
 # --- Display Data ---
 
-# Pilih kolom yang ingin ditampilkan
-selected_columns = ["email", "name", "phone", "register_date", "GI_date", "GI_overall"] + list(gi_columns.keys()) + ["LEAN_date"] + list(lean_columns.keys()) + ["ELITE_date"] + list(elite_columns.keys()) + ["Astaka_date", "Astaka_Top 1_typology", "Astaka_Top 1_total_score", "Astaka_Top 2_typology", "Astaka_Top 2_total_score", "Astaka_Top 3_typology", "Astaka_Top 3_total_score", "Astaka_Top 4_typology", "Astaka_Top 4_total_score", "Astaka_Top 5_typology", "Astaka_Top 5_total_score", "Astaka_Top 6_typology", "Astaka_Top 6_total_score"] + ["Genuine_date", "Genuine_Top 1_typology", "Genuine_Top 1_total_score", "Genuine_Top 2_typology", "Genuine_Top 2_total_score", "Genuine_Top 3_typology", "Genuine_Top 3_total_score", "Genuine_Top 4_typology", "Genuine_Top 4_total_score", "Genuine_Top 5_typology", "Genuine_Top 5_total_score", "Genuine_Top 6_typology", "Genuine_Top 6_total_score", "Genuine_Top 7_typology", "Genuine_Top 7_total_score", "Genuine_Top 8_typology", "Genuine_Top 8_total_score", "Genuine_Top 9_typology", "Genuine_Top 9_total_score"]
+# --- Select Columns to Display ---
+selected_columns = [
+    "project", "email", "name", "phone", "register_date", "GI_date", "GI_overall"] + list(gi_columns.keys()) + \
+    ["LEAN_date"] + list(lean_columns.keys()) + ["ELITE_date"] + list(elite_columns.keys()) + \
+    ["Astaka_date", "Astaka_Top 1_typology", "Astaka_Top 1_total_score", "Astaka_Top 2_typology", "Astaka_Top 2_total_score", 
+    "Astaka_Top 3_typology", "Astaka_Top 3_total_score", "Astaka_Top 4_typology", "Astaka_Top 4_total_score", 
+    "Astaka_Top 5_typology", "Astaka_Top 5_total_score", "Astaka_Top 6_typology", "Astaka_Top 6_total_score"] + \
+    ["Genuine_date", "Genuine_Top 1_typology", "Genuine_Top 1_total_score", "Genuine_Top 2_typology", "Genuine_Top 2_total_score", 
+    "Genuine_Top 3_typology", "Genuine_Top 3_total_score", "Genuine_Top 4_typology", "Genuine_Top 4_total_score", 
+    "Genuine_Top 5_typology", "Genuine_Top 5_total_score", "Genuine_Top 6_typology", "Genuine_Top 6_total_score", 
+    "Genuine_Top 7_typology", "Genuine_Top 7_total_score", "Genuine_Top 8_typology", "Genuine_Top 8_total_score", 
+    "Genuine_Top 9_typology", "Genuine_Top 9_total_score"
+]
 
-# --- Search Input ---
-search_query = st.text_input("🔍 Search by Email, Name, or Phone", "")
+# --- Filter by Project (Text Input) ---
+project_query = st.text_input("📁 Search by Project", "")
 
-# --- Filter Data Based on Search ---
-if search_query:
+if project_query:
     df_merged = df_merged[
-        df_merged["email"].str.contains(search_query, case=False, na=False) |
-        df_merged["name"].str.contains(search_query, case=False, na=False) |
-        df_merged["phone"].astype(str).str.contains(search_query, na=False)
+        df_merged["project"].fillna("").str.contains(project_query, case=False, na=False)
     ]
-    # --- Display the table only if search input is provided ---
-    st.write(f"Showing {len(df_merged)} results")
-    st.write(df_merged[selected_columns].head(10).to_html(escape=False, index=False), unsafe_allow_html=True)
+    
+    # --- Drop columns with all NaN values after selecting columns ---
+    df_merged_cleaned = df_merged[selected_columns].dropna(axis=1, how='all')
 
-else:
+    # Display the table only if search input is provided
+    st.write(f"Showing {len(df_merged_cleaned)} results")
+
+    # Display the cleaned DataFrame
+    st.write(df_merged_cleaned.to_html(escape=False, index=False), unsafe_allow_html=True)
+else: 
     st.write("❗ Enter a search query to see results.")

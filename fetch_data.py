@@ -26,9 +26,13 @@ def fetch_data_creds():
     data2 = sheet2.get_all_records()
     df_links = pd.DataFrame(data2)
 
-    return df_creds, df_links  # Return both DataFrames
+    # Fetch Sheet3 (B2B)
+    sheet3 = spreadsheet.get_worksheet(2)  # Index 2 refers to the third sheet
+    data3 = sheet3.get_all_records()
+    df_b2b = pd.DataFrame(data3)
 
-@st.cache_resource(ttl=1800)
+    return df_creds, df_links, df_b2b  # Return both DataFrames
+
 def fetch_data_discovery():
     try:
         connection_kwargs = {
