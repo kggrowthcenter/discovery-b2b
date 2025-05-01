@@ -5,8 +5,6 @@ from oauth2client.service_account import ServiceAccountCredentials
 import toml
 import pymysql
 
-
-@st.cache_resource()
 def fetch_data_creds():
     secret_info = st.secrets["sheets"]
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]

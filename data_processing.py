@@ -134,8 +134,13 @@ def finalize_data():
     ]
 
     df_final = df_final[[col for col in column_order if col in df_final.columns]]
+    
     df_final["project"] = df_final["project"].replace(
     "Discover Your Learning Agility to Adapt and Succeed in a Fast-Paced World - Universitas Kristen Petra", 
-    "UKPMEI25"
-)
+    "UKPFEB25")
+
+    df_final["project"] = df_final["project"].replace(
+    "[Kenali Karakteristik Diri, Siap Berkreasi dan Berinovasi- Universitas Kristen Petra]", 
+    "UKPMEI25")
+
     return df_creds, df_links, df_b2b, df_final
