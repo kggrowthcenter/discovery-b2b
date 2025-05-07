@@ -140,7 +140,8 @@ def finalize_data():
     "UKPFEB25")
 
     df_final["project"] = df_final["project"].replace(
-    "[Kenali Karakteristik Diri, Siap Berkreasi dan Berinovasi- Universitas Kristen Petra]", 
-    "UKPMEI25")
+        r"\[Kenali Karakteristik Diri, Siap Berkreasi dan Berinovasi- Universitas Kristen Petra\]", 
+        "UKPMEI25", regex=True)
+
 
     return df_creds, df_links, df_b2b, df_final
