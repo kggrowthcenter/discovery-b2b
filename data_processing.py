@@ -139,9 +139,8 @@ def finalize_data():
     "Discover Your Learning Agility to Adapt and Succeed in a Fast-Paced World - Universitas Kristen Petra", 
     "UKPFEB25")
 
-    df_final.loc[
-        df_final["project"].str.contains("Kenali Karakteristik Diri", case=False, na=False),
-        "project"
-    ] = "UKPMEI25"
+    df_final["project"] = df_final["project"].replace(
+    "[Kenali Karakteristik Diri, Siap Berkreasi dan Berinovasi- Universitas Kristen Petra]", 
+    "UKPMEI25")
 
     return df_creds, df_links, df_b2b, df_final
