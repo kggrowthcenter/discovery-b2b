@@ -104,8 +104,8 @@ def finalize_data():
     df_genuine = process_genuine(df_discovery)
 
     on_cols = ["id", "email", "name", "phone", "register_date"]
-    df_final = df_others.merge(df_astaka, on=on_cols, how="left")
-    df_final = df_final.merge(df_genuine, on=on_cols, how="left")
+    df_final = df_others.merge(df_astaka, on=on_cols, how="outer")
+    df_final = df_final.merge(df_genuine, on=on_cols, how="outer")
 
     if "project" in df_final.columns:
         df_final = df_final.drop(columns=["project"])
