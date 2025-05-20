@@ -22,7 +22,7 @@
 FROM user_results ur
 LEFT JOIN tests t ON
     ur.test_id = t.id
-JOIN users u ON
+LEFT JOIN users u ON
     ur.user_id = u.id
 JOIN user_bundle_result_user_result ubrur on
 	ur.id = ubrur.user_result_id
